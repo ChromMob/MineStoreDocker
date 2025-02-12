@@ -4,26 +4,20 @@ services:
     restart: always
     volumes:
       - ./minestore/mysql-data:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=random
-      - MYSQL_DATABASE=minestore
-      - MYSQL_USER=minestore_user
-      - MYSQL_PASSWORD=12345678
-      - timezone=UTC
-    ports:
-      - 3306:3306
+    env_file:
+      - .env
+    expose:
+      - 3306
   backend:
     build: ./backend
-    environment:
-      - randomPasswordMYSQL=12345678
-      - timezone=UTC
-      - minestoreDomain=ms.chrommob.fun
-      - minestorePath=/var/www/minestore
-      - phpVersion=8.2
-      - licenseKey=
+    env_file:
+      - .env
     volumes:
       - ./minestore/site:/var/www/minestore
       - php-socket:/run/php
+    depends_on:
+      - mariadb
+      - nginx
   frontend:
     build: ./frontend
     restart: always
@@ -34,16 +28,15 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    ports:
-      - 3000:3000
+    expose:
+      - 3000
+    depends_on:
+      - backend
   nginx:
     build: ./nginx
     restart: always
-    environment:
-      - minestoreDomain=ms.chrommob.fun
-      - minestorePath=/var/www/minestore
-      - phpVersion=8.2
-      - server_ip=127.0.0.1
+    env_file:
+      - .env
     ports:
       - 80:80
       - 443:443

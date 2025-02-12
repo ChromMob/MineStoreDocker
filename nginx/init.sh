@@ -1,5 +1,6 @@
 #!/bin/bash
 
+minestorePath="/var/www/minestore"
 
 COLOR_YELLOW='\033[1;33m'
 COLOR_GREEN='\033[0;32m'

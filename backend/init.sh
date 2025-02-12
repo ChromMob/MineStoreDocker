@@ -1,5 +1,7 @@
 #!/bin/bash
-    
+
+minestorePath="/var/www/minestore"
+
 cd $minestorePath
 export COMPOSER_ALLOW_SUPERUSER=1
 
@@ -120,7 +122,17 @@ configure_server() {
     rm -rf .env.temp
     success "Configured database host."
 
-    sed "s,^DB_PASSWORD=.*\$,DB_PASSWORD=$randomPasswordMYSQL," .env >.env.temp
+    sed "s,^DB_DATABASE=.*\$,DB_DATABASE=$MYSQL_DATABASE," .env >.env.temp
+    mv -f .env.temp .env
+    rm -rf .env.temp
+    success "Configured database name."
+    
+    sed "s,^DB_USERNAME=.*\$,DB_USERNAME=$MYSQL_USER," .env >.env.temp
+    mv -f .env.temp .env
+    rm -rf .env.temp
+    success "Configured database user."
+
+    sed "s,^DB_PASSWORD=.*\$,DB_PASSWORD=$MYSQL_PASSWORD," .env >.env.temp
     mv -f .env.temp .env
     rm -rf .env.temp
     success "Configured database user password."

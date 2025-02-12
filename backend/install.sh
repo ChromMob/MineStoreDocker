@@ -1,6 +1,5 @@
 #!/bin/bash
 
-randomPasswordMYSQL=""
 minestorePath="/var/www/minestore"
 phpVersion="8.2"
 customMysql=0
