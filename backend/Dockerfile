@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM php:8.2-fpm-bookworm
+FROM php:8.3-fpm-bookworm
 
 COPY install.sh /install.sh
 RUN chmod +x /install.sh
