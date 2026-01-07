@@ -6,6 +6,11 @@ cd $minestorePath
 export COMPOSER_ALLOW_SUPERUSER=1
 
 init_server() {
+    sudo chown -R www-data:www-data /var/www/minestore/storage
+    sudo chown -R www-data:www-data /var/www/minestore/bootstrap/cache
+    sudo chmod -R 775 /var/www/minestore/storage
+    sudo chmod -R 775 /var/www/minestore/bootstrap/cache
+    
     clear
     cd $minestorePath
     export COMPOSER_ALLOW_SUPERUSER=1
