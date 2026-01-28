@@ -15,7 +15,7 @@ init_server() {
     cd $minestorePath
     export COMPOSER_ALLOW_SUPERUSER=1
     php /usr/local/bin/composer install --no-interaction --prefer-dist --optimize-autoloader
-    php $minestorePath/artisan queue:work --timeout=500 --queue=high,standard,low --sleep=3 --tries=3 & php $minestorePath/artisan cron:worker & php $minestorePath/artisan queue:listen & php $minestorePath/artisan schedule:run >> /dev/null 2>&1 & php artisan discord:run & php $minestorePath/artisan queue:work --queue=paynow --sleep=3 --tries=3 & php-fpm
+    php $minestorePath/artisan queue:work --timeout=600 --queue=high,standard,low --sleep=3 --tries=3 & php $minestorePath/artisan cron:worker & php $minestorePath/artisan schedule:run >> /dev/null 2>&1 & php artisan discord:run & php $minestorePath/artisan queue:work --queue=paynow --sleep=3 --tries=3 & php-fpm
     exit 1
 }
 
