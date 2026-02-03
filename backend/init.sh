@@ -6,19 +6,17 @@ cd $minestorePath
 export COMPOSER_ALLOW_SUPERUSER=1
 
 init_server() {
-    sudo chown -R www-data:www-data /var/www/minestore/storage
-    sudo chown -R www-data:www-data /var/www/minestore/bootstrap/cache
-    sudo chmod -R 775 /var/www/minestore/storage
-    sudo chmod -R 775 /var/www/minestore/bootstrap/cache
+    chown -R www-data:www-data /var/www/minestore/storage
+    chown -R www-data:www-data /var/www/minestore/bootstrap/cache
+    chmod -R 775 /var/www/minestore/storage
+    chmod -R 775 /var/www/minestore/bootstrap/cache
     
-    clear
     cd $minestorePath
     export COMPOSER_ALLOW_SUPERUSER=1
     php /usr/local/bin/composer install --no-interaction --prefer-dist --optimize-autoloader
-    php $minestorePath/artisan queue:work --timeout=600 --queue=high,standard,low --sleep=3 --tries=3 & php $minestorePath/artisan cron:worker & php $minestorePath/artisan schedule:run >> /dev/null 2>&1 & php artisan discord:run & php $minestorePath/artisan queue:work --queue=paynow --sleep=3 --tries=3 & php-fpm
-    exit 1
+    
+    # Script exits here, then CMD starts supervisord
 }
-
 
 #if /var/www/minestore already exists and /var/www/minestore/.env has INSTALLED = 1
 if [ -d "/var/www/minestore" ] && [ -f "/var/www/minestore/.env" ] && [ "$(cat /var/www/minestore/.env | grep INSTALLED=1)" ]; then
